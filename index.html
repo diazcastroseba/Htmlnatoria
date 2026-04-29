@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Htmlnatoria | Diseño app fauna</title>
+  <style>
+    :root{--bg:#0f172a;--card:#111827;--muted:#94a3b8;--text:#e5e7eb;--accent:#22c55e;--line:#1f2937}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#0b1220,#111827);color:var(--text)}
+    .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+    .sidebar{border-right:1px solid var(--line);padding:20px;background:#0b1220}
+    .brand{font-weight:700;font-size:1.1rem;margin-bottom:16px}
+    .nav button{display:block;width:100%;text-align:left;padding:10px 12px;margin:6px 0;background:#111827;border:1px solid var(--line);color:var(--text);border-radius:8px;cursor:pointer}
+    .nav button.active{border-color:var(--accent);color:#dcfce7}
+    .main{padding:24px;display:grid;gap:16px}
+    .card{background:rgba(17,24,39,.9);border:1px solid var(--line);border-radius:12px;padding:16px}
+    .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .kpi h3{margin:0 0 6px 0;font-size:.95rem;color:var(--muted)}
+    .kpi p{margin:0;font-size:1.4rem;font-weight:700}
+    .hidden{display:none}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:.92rem}
+    th{color:var(--muted);font-weight:600}
+    .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.8rem;background:#1f2937}
+    .ok{background:#14532d}.warn{background:#78350f}
+    .subtitle{color:var(--muted);margin-top:4px}
+    @media (max-width:900px){.layout{grid-template-columns:1fr}.sidebar{border-right:none;border-bottom:1px solid var(--line)}.kpis{grid-template-columns:repeat(2,1fr)}.grid-2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">🐾 Fauna Field App</div>
+      <div class="subtitle">Prototipo visual (MVP)</div>
+      <nav class="nav" id="nav"></nav>
+    </aside>
+    <main class="main">
+      <section id="dashboard" class="view card">
+        <h2>Dashboard</h2>
+        <p class="subtitle">Resumen operativo por proyecto y campaña</p>
+        <div class="kpis">
+          <div class="card kpi"><h3>Proyectos activos</h3><p>3</p></div>
+          <div class="card kpi"><h3>Campañas en ejecución</h3><p>5</p></div>
+          <div class="card kpi"><h3>Estaciones</h3><p>42</p></div>
+          <div class="card kpi"><h3>Registros pendientes QA</h3><p>18</p></div>
+        </div>
+      </section>
+
+      <section id="proyectos" class="view card hidden">
+        <h2>Proyectos</h2>
+        <table><thead><tr><th>Nombre</th><th>Estado</th><th>Cliente</th><th>Fechas</th></tr></thead>
+          <tbody><tr><td>Línea Base Norte</td><td><span class="tag ok">Activo</span></td><td>Minera A</td><td>2026-03-01 a 2026-12-31</td></tr>
+          <tr><td>Monitoreo Humedal</td><td><span class="tag warn">Planificado</span></td><td>Consultora B</td><td>2026-06-01 a 2026-09-30</td></tr></tbody>
+        </table>
+      </section>
+
+      <section id="campanas" class="view card hidden">
+        <h2>Campañas</h2>
+        <div class="grid-2">
+          <div class="card"><h3>Nueva campaña</h3><p class="subtitle">Tipo: Línea base / Monitoreo</p></div>
+          <div class="card"><h3>Asignación</h3><p class="subtitle">Usuarios + estaciones + metodologías</p></div>
+        </div>
+      </section>
+
+      <section id="estaciones" class="view card hidden">
+        <h2>Estaciones de muestreo</h2>
+        <table><thead><tr><th>Código</th><th>Nombre</th><th>Coordenadas</th><th>Hábitat</th></tr></thead>
+          <tbody><tr><td>E-01</td><td>Quebrada Alta</td><td>-29.50, -70.90</td><td>Matorral</td></tr>
+          <tr><td>E-02</td><td>Laguna Norte</td><td>-29.48, -70.85</td><td>Humedal</td></tr></tbody>
+        </table>
+      </section>
+
+      <section id="metodologias" class="view card hidden">
+        <h2>Metodologías por estación</h2>
+        <ul>
+          <li>Transecto (esfuerzo: 2 km)</li>
+          <li>Punto de observación de aves (20 min)</li>
+          <li>Búsqueda dirigida (45 min)</li>
+        </ul>
+      </section>
+
+      <section id="registros" class="view card hidden">
+        <h2>Registros de especies</h2>
+        <table><thead><tr><th>Especie</th><th>Cantidad</th><th>Tipo</th><th>Estado QA</th></tr></thead>
+          <tbody><tr><td>Zonotrichia capensis</td><td>4</td><td>Visual</td><td><span class="tag warn">Pendiente</span></td></tr>
+          <tr><td>Liolaemus sp.</td><td>1</td><td>Visual</td><td><span class="tag ok">Validado</span></td></tr></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+  <script>
+    const tabs=["dashboard","proyectos","campanas","estaciones","metodologias","registros"];
+    const nav=document.getElementById('nav');
+    tabs.forEach((id,i)=>{const b=document.createElement('button');b.textContent=id[0].toUpperCase()+id.slice(1);if(i===0)b.classList.add('active');b.onclick=()=>{document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active')};nav.appendChild(b)});
+  </script>
+</body>
+</html>
